@@ -1,5 +1,8 @@
-public class App {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
-    }
+public class App  {
+ public static void main(String[] args) {
+    Board gameBoard = new Board(8,8,10);
+    gameBoard.printBoard();
+    gameBoard.printAdjacent();
+ }
+
 }

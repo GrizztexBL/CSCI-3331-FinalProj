@@ -1,90 +1,136 @@
+import java.util.ArrayList;
 import java.util.Random;
 
-public class Board {
-    GameController controller;
-    Tile[][] boardTiles;
-    int rowLength;
-    int colLength;
-    int mineCount;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
-    public Board(int rowLength, int colLength, int mineCount) {
-        controller = new GameController();
-        this.boardTiles = new Tile[rowLength][colLength];
-        this.rowLength = rowLength;
-        this.colLength = colLength;
+public class Board extends BorderPane{
+    Stage stage;
+    Tile[][] boardGrid;
+    int rowNum, colNum, mineCount;
+    int sceneWidth, sceneHeight;
+    int btnSize = 50;
+
+    public Board(Stage stage, int rowNum, int colNum, int mineCount) {
+        this.stage = stage;
+        this.rowNum = rowNum;
+        this.colNum = colNum;
         this.mineCount = mineCount;
-
-        fillBoard();
-        mineBoard();
-        assignAdjacentTiles();
+        this.boardGrid = new Tile[rowNum][colNum];
+        generateBoard(rowNum, colNum, mineCount);
     }
 
-    private void fillBoard() {
+    public void generateBoard(int rowNum, int colNum, int mineCount) {
+        fillBoard (rowNum, colNum);
+        mineBoard(mineCount);
+        assignAdjacentTiles();
+
+        GridPane grid = new GridPane();
+        for (int i = 0; i < rowNum; i++) {
+            for (int j = 0; j < colNum; j++) {
+                Tile tile = new SafeTile();
+                tile.setPrefSize(btnSize, btnSize);
+                tile.setOnAction(e -> handleButtonClick(tile));
+                boardGrid[i][j] = tile;
+                grid.add(tile, i, j);
+            }
+        }
+
+        Button quitbtn = new Button("Exit Game");
+        boardBtnSetup(quitbtn);
+        quitbtn.setOnAction(e-> {
+            System.exit(0);
+        });
+
+        setCenter(grid);
+        getChildren().add(quitbtn);
+    }
+
+    public void handleButtonClick(Tile tile) {
+
+    }
+
+    private void fillBoard(int rowLength, int colLength) {
         for (int i = 0; i < rowLength; i++) {
             for (int j = 0; j < colLength; j++) {
-                boardTiles[i][j] = new SafeTile();
+                boardGrid[i][j] = new SafeTile();
             }
         }
     }
 
+    public void mineBoard(int mineCount) {
+        Random rand = new Random();
+
+        int randomRow = rand.nextInt(rowNum);
+        int randomCol = rand.nextInt(colNum);
+
+        int count = 0;
+
+        while (count < mineCount) {
+            if (boardGrid[randomRow][randomCol].mined == false) {
+                boardGrid[randomRow][randomCol] = new MineTile();
+                boardGrid[randomRow][randomCol].mined = true;
+                count++;
+            } else {
+                randomRow = rand.nextInt(rowNum);
+                randomCol = rand.nextInt(colNum);
+            }
+        }
+    }
+
+    private boolean isInBounds(int row, int col) {
+        return row >= 0 && row < rowNum && col >= 0 && col < colNum;
+    }
+
     private void assignAdjacentTiles() {
         int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1}; 
 
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
+        for (int i = 0; i < rowNum; i++) {
+            for (int j = 0; j < colNum; j++) {
                 for (int k = 0; k < 8; k++) {
                     int newRow = i + rowOffsets[k];
                     int newCol = j + colOffsets[k];
 
                     if (isInBounds(newRow, newCol)) {
-                        boardTiles[i][j].addAdjacentTile(boardTiles[newRow][newCol]);
+                        boardGrid[i][j].addAdjacentTile(boardGrid[newRow][newCol]);
                     }
                 }
             }
         }
     }
 
-    private boolean isInBounds(int row, int col) {
-        return row >= 0 && row < rowLength && col >= 0 && col < colLength;
+    public void boardBtnSetup(Button btn) {
+        Font font = Font.font("Courier New", FontWeight.MEDIUM, 10);
+        btn.setFont(font);
+        btn.setStyle("-fx-background-color: #ff0000; ");
+        btn.autosize();
+
+        btn.setLayoutX(900);
+        btn.setLayoutY(25);
+
+        btn.setMinSize(75, 25);
+        btn.setMaxSize(75, 25);
     }
 
-    public void printBoard() {
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                if (boardTiles[i][j].mined == false) {
-                    System.out.print("0");
-                } else {
-                    System.out.print("1");
-                }
-
-            }
-            System.out.println("");
-        }
+    public BorderPane getRootPane() {
+        return this;
     }
 
-    public void printAdjacent() {
-        System.out.println(boardTiles[4][4].getAdjacentTiles());
+    public int getRowNum() {
+        return rowNum;
     }
 
-    public void mineBoard() {
-        Random rand = new Random();
-
-        int randomRow = rand.nextInt(rowLength);
-        int randomCol = rand.nextInt(colLength);
-
-        int count = 0;
-
-        while (count < mineCount) {
-            if (boardTiles[randomRow][randomCol].mined == false) {
-                boardTiles[randomRow][randomCol] = new MineTile();
-                boardTiles[randomRow][randomCol].mined = true;
-                count++;
-            } else {
-                randomRow = rand.nextInt(rowLength);
-                randomCol = rand.nextInt(colLength);
-            }
-        }
+    public int getColNum() {
+        return colNum;
     }
 
+    public int getButtonSize() {
+        return btnSize;
+    }
 }

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-public abstract class Tile implements Clickable {
+import javafx.scene.control.Button;
+
+public abstract class Tile extends Button{
     boolean revealed;
 
     boolean flagged;

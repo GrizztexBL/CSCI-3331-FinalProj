@@ -1,5 +1,4 @@
-public class SafeTile extends Tile {
-
+public class SafeTile extends Tile{
     public SafeTile() {
         super();
     }

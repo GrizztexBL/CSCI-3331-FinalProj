@@ -1,5 +1,4 @@
-public class MineTile extends Tile {
-    
+public class MineTile extends Tile{
     public MineTile() {
         super();
         super.mined = true;

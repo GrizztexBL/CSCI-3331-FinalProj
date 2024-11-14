@@ -36,15 +36,21 @@ public class MainMenu extends Pane{
         startingButtonSetup(quitbtn);
 
         easybtn.setOnAction(e-> {
-            Board board = new Board(stage, 10, 12, 15);
+            Board board = new Board(stage, 12, 10, 15);
+            stage.setHeight(board.getButtonSize() * board.getColNum());
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
         medbtn.setOnAction(e-> {
-            Board board = new Board(stage, 15, 18, 45);
+            Board board = new Board(stage, 18, 15, 45);
+            stage.setHeight(board.getButtonSize() * board.getColNum());
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
         hardbtn.setOnAction(e-> {
-            Board board = new Board(stage, 24, 28, 120);
+            Board board = new Board(stage, 28, 24, 120);
+            stage.setHeight(board.getButtonSize() * board.getColNum());
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
         quitbtn.setOnAction(e-> {

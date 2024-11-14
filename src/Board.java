@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -10,9 +11,10 @@ import javafx.stage.Stage;
 
 public class Board extends BorderPane{
     Stage stage;
-    ArrayList<Tile> boardButtons = new ArrayList<>();
     Tile[][] boardGrid;
     int rowNum, colNum, mineCount;
+    int sceneWidth, sceneHeight;
+    int btnSize = 50;
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount) {
         this.stage = stage;
@@ -32,7 +34,7 @@ public class Board extends BorderPane{
         for (int i = 0; i < rowNum; i++) {
             for (int j = 0; j < colNum; j++) {
                 Tile tile = new SafeTile();
-                tile.setMinSize(50, 50);
+                tile.setPrefSize(btnSize, btnSize);
                 tile.setOnAction(e -> handleButtonClick(tile));
                 boardGrid[i][j] = tile;
                 grid.add(tile, i, j);
@@ -120,5 +122,15 @@ public class Board extends BorderPane{
         return this;
     }
 
+    public int getRowNum() {
+        return rowNum;
+    }
 
+    public int getColNum() {
+        return colNum;
+    }
+
+    public int getButtonSize() {
+        return btnSize;
+    }
 }

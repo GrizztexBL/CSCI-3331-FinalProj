@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 public abstract class Tile extends Button{
     boolean revealed;
@@ -21,4 +22,12 @@ public abstract class Tile extends Button{
     protected abstract void addAdjacentTile(Tile tile);
 
     protected abstract String getAdjacentTiles();
+
+    protected abstract void onClick(MouseEvent mouseEvent);
+
+    protected void rightClick(){
+
+    }
+
+    protected abstract void leftClick();
 }

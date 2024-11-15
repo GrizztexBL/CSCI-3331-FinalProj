@@ -1,13 +1,20 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Board extends BorderPane{
     Stage stage;
@@ -15,6 +22,9 @@ public class Board extends BorderPane{
     int rowNum, colNum, mineCount;
     int sceneWidth, sceneHeight;
     int btnSize = 50;
+    HBox bottomPane = new HBox();
+    Timeline timeline;
+    int timer = 0;
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount) {
         this.stage = stage;
@@ -23,6 +33,7 @@ public class Board extends BorderPane{
         this.mineCount = mineCount;
         this.boardGrid = new Tile[rowNum][colNum];
         generateBoard(rowNum, colNum, mineCount);
+        setUpTimer();
     }
 
     public void generateBoard(int rowNum, int colNum, int mineCount) {
@@ -49,6 +60,28 @@ public class Board extends BorderPane{
 
         setCenter(grid);
         getChildren().add(quitbtn);
+    }
+
+    public void setUpTimer(){
+        Label timer = new Label("Time Elapsed: 0");
+        bottomPane.getChildren().add(timer);
+        bottomPane.setAlignment(Pos.CENTER);
+
+        setBottom(bottomPane);
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
+        timeline.setCycleCount(timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    public void updateTimer(){
+        timer++;
+        Label myLabel = (Label)bottomPane.getChildren().get(0);
+        myLabel.setText("Time Elapsed: " + timer);
+    }
+
+    public void stopTimer(){
+        timeline.stop();
     }
 
     public void handleButtonClick(Tile tile) {

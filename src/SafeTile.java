@@ -1,3 +1,5 @@
+import javafx.scene.input.MouseEvent;
+
 public class SafeTile extends Tile{
     public SafeTile() {
         super();
@@ -18,5 +20,17 @@ public class SafeTile extends Tile{
         }
         System.out.println("---------------");
         return tileString;
+    }
+
+    @Override
+    protected void onClick(MouseEvent mouseEvent) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onClick'");
+    }
+
+    @Override
+    protected void leftClick() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
     }
 }

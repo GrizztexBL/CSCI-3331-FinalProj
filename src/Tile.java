@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public abstract class Tile extends Button{
     boolean revealed;
@@ -32,6 +33,8 @@ public abstract class Tile extends Button{
         else
             this.setText("");
     }
+
+    public abstract void giveStage(Stage stage);
 
     protected abstract void leftClick();
 

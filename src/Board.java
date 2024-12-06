@@ -8,6 +8,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -51,6 +53,7 @@ public class Board extends BorderPane{
                 Tile tile = new SafeTile();
                 tile.setPrefSize(btnSize, btnSize);
                 tile.setOnMousePressed(e -> handleButtonClick(e, tile));
+                tile.setFocusTraversable(false);
                 boardGrid[i][j] = tile;
                 grid.add(tile, i, j);
             }
@@ -115,6 +118,8 @@ public class Board extends BorderPane{
                 tile.setOnMousePressed(e -> handleButtonClick(e,tile));
                 boardGrid[randomRow][randomCol] = tile;
                 tile.setPrefSize(btnSize, btnSize);
+                tile.setFocusTraversable(false);
+                tile.giveStage(stage);
                 grid.add(tile, randomRow, randomCol);
                 count++;
             } else {

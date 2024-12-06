@@ -12,22 +12,25 @@ public abstract class Tile extends Button{
 
     ArrayList<Tile> adjacentTiles;
 
+    int adjacentMineCount;
+
     public Tile() {
         revealed = false;
         flagged = false;
         mined = false;
         adjacentTiles = new ArrayList<>();
+        adjacentMineCount = 0;
     }
 
     protected abstract void addAdjacentTile(Tile tile);
-
-    protected abstract String getAdjacentTiles();
-
-    protected abstract void onClick(MouseEvent mouseEvent);
 
     protected void rightClick(){
 
     }
 
     protected abstract void leftClick();
+
+    public abstract void addAdjacentMine();
+
+    public abstract boolean getMined();
 }

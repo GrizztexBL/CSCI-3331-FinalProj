@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,6 +27,7 @@ public class Board extends BorderPane{
     HBox bottomPane = new HBox();
     Timeline timeline;
     int timer = 0;
+    GridPane grid = new GridPane();
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount) {
         this.stage = stage;
@@ -37,20 +40,19 @@ public class Board extends BorderPane{
     }
 
     public void generateBoard(int rowNum, int colNum, int mineCount) {
-        fillBoard (rowNum, colNum);
-        mineBoard(mineCount);
-        assignAdjacentTiles();
-
-        GridPane grid = new GridPane();
+        
         for (int i = 0; i < rowNum; i++) {
             for (int j = 0; j < colNum; j++) {
                 Tile tile = new SafeTile();
                 tile.setPrefSize(btnSize, btnSize);
-                tile.setOnAction(e -> handleButtonClick(tile));
+                tile.setOnMousePressed(e -> handleButtonClick(e, tile));
                 boardGrid[i][j] = tile;
                 grid.add(tile, i, j);
             }
         }
+        
+        mineBoard(mineCount);
+        assignAdjacentTiles();
 
         Button quitbtn = new Button("Exit Game");
         boardBtnSetup(quitbtn);
@@ -84,16 +86,14 @@ public class Board extends BorderPane{
         timeline.stop();
     }
 
-    public void handleButtonClick(Tile tile) {
-
-    }
-
-    private void fillBoard(int rowLength, int colLength) {
-        for (int i = 0; i < rowLength; i++) {
-            for (int j = 0; j < colLength; j++) {
-                boardGrid[i][j] = new SafeTile();
-            }
+    public void handleButtonClick(MouseEvent e, Tile tile) {
+        if (e.getButton() == MouseButton.SECONDARY) {
+            tile.rightClick();
         }
+        if (e.getButton() == MouseButton.PRIMARY) {
+            tile.leftClick();
+        }
+        
     }
 
     public void mineBoard(int mineCount) {
@@ -106,8 +106,11 @@ public class Board extends BorderPane{
 
         while (count < mineCount) {
             if (boardGrid[randomRow][randomCol].mined == false) {
-                boardGrid[randomRow][randomCol] = new MineTile();
-                boardGrid[randomRow][randomCol].mined = true;
+                Tile tile = new MineTile();
+                tile.setOnMousePressed(e -> handleButtonClick(e,tile));
+                boardGrid[randomRow][randomCol] = tile;
+                tile.setPrefSize(btnSize, btnSize);
+                grid.add(tile, randomRow, randomCol);
                 count++;
             } else {
                 randomRow = rand.nextInt(rowNum);
@@ -131,6 +134,9 @@ public class Board extends BorderPane{
                     int newCol = j + colOffsets[k];
 
                     if (isInBounds(newRow, newCol)) {
+                        if (boardGrid[newRow][newCol].getMined()) {
+                            boardGrid[i][j].addAdjacentMine();
+                        }
                         boardGrid[i][j].addAdjacentTile(boardGrid[newRow][newCol]);
                     }
                 }

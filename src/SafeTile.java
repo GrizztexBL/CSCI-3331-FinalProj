@@ -9,28 +9,16 @@ public class SafeTile extends Tile{
         this.adjacentTiles.add(tile);
     }
 
-    public String getAdjacentTiles() {
-        String tileString = "";
-        for(int i = 0; i < adjacentTiles.size(); i++) {
-            if (adjacentTiles.get(i).mined == true) {
-                tileString += "1";
-            } else {
-                tileString += "0";
-            }
-        }
-        System.out.println("---------------");
-        return tileString;
+    public void addAdjacentMine() {
+        super.adjacentMineCount += 1;
     }
 
-    @Override
-    protected void onClick(MouseEvent mouseEvent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onClick'");
+    public boolean getMined() {
+        return mined;
     }
 
     @Override
     protected void leftClick() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
+        this.setText(String.valueOf(this.adjacentMineCount));
     }
 }

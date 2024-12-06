@@ -22,15 +22,30 @@ public class SafeTile extends Tile{
         return tileString;
     }
 
-    @Override
-    protected void onClick(MouseEvent mouseEvent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onClick'");
-    }
+    // protected void setOnClicks(){
+    //     this.setOnMouseClicked(event ->
+    //     {
+    //         //left click
+    //         if (event.isPrimaryButtonDown()) {
+    //             this.setDisable(true);
+    //             this.
+    //         }
+    //         //right click
+    //         if (event.isSecondaryButtonDown()) {
+                
+    //         }
+    //     });
+    // }
 
-    @Override
-    protected void leftClick() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
-    }
+    // @Override
+    // protected void onClick(MouseEvent mouseEvent) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'onClick'");
+    // }
+
+    // @Override
+    // protected void leftClick() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
+    // }
 }

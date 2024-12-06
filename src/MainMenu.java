@@ -1,5 +1,6 @@
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -40,6 +41,7 @@ public class MainMenu extends Pane{
             stage.setHeight(board.getButtonSize() * board.getColNum());
             stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
+            gameOver(false);
         });
         medbtn.setOnAction(e-> {
             Board board = new Board(stage, 18, 15, 45);
@@ -99,5 +101,18 @@ public class MainMenu extends Pane{
 
     public void show() {
         stage.show();
+        requestFocus();
+    }
+
+    public void gameOver(boolean win){
+        if(win){
+            GameOver winner = new GameOver(true);
+            stage.getScene().setRoot(winner.getRootPane());
+        }
+        else{
+            GameOver loser = new GameOver(false);
+            stage.getScene().setRoot(loser.getRootPane());
+        }
+        show();
     }
 }

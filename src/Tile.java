@@ -23,11 +23,11 @@ public abstract class Tile extends Button{
 
     protected abstract String getAdjacentTiles();
 
-    protected abstract void onClick(MouseEvent mouseEvent);
+    // protected abstract void onClick(MouseEvent mouseEvent);
 
-    protected void rightClick(){
+    // protected void rightClick(){
 
-    }
+    // }
 
-    protected abstract void leftClick();
+    // protected abstract void leftClick();
 }

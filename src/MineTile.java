@@ -23,17 +23,17 @@ public class MineTile extends Tile{
         return tileString;
     }
 
-    @Override
-    protected void onClick(MouseEvent mouseEvent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onClick'");
-    }
+    // @Override
+    // protected void onClick(MouseEvent mouseEvent) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'onClick'");
+    // }
 
-    @Override
-    protected void leftClick() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
-    }
+    // @Override
+    // protected void leftClick() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'leftClick'");
+    // }
 
 
 }

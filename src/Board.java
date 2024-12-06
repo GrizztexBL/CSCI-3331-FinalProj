@@ -3,10 +3,13 @@ import java.util.Random;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -46,7 +49,7 @@ public class Board extends BorderPane{
             for (int j = 0; j < colNum; j++) {
                 Tile tile = new SafeTile();
                 tile.setPrefSize(btnSize, btnSize);
-                tile.setOnAction(e -> handleButtonClick(tile));
+                tile.setOnMousePressed(e -> handleButtonClick(e, tile));
                 boardGrid[i][j] = tile;
                 grid.add(tile, i, j);
             }
@@ -70,7 +73,7 @@ public class Board extends BorderPane{
         setBottom(bottomPane);
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
-        timeline.setCycleCount(timeline.INDEFINITE);
+        timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
@@ -84,8 +87,10 @@ public class Board extends BorderPane{
         timeline.stop();
     }
 
-    public void handleButtonClick(Tile tile) {
-
+    public void handleButtonClick(MouseEvent e, Tile tile) {
+        if(e.getButton() == MouseButton.SECONDARY) {
+            tile.rightClick();
+        }
     }
 
     private void fillBoard(int rowLength, int colLength) {

@@ -23,12 +23,6 @@ public class SafeTile extends Tile{
     }
 
     @Override
-    protected void onClick(MouseEvent mouseEvent) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onClick'");
-    }
-
-    @Override
     protected void leftClick() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'leftClick'");

@@ -23,10 +23,13 @@ public abstract class Tile extends Button{
 
     protected abstract String getAdjacentTiles();
 
-    protected abstract void onClick(MouseEvent mouseEvent);
-
     protected void rightClick(){
-
+        if(this.getText().equals("")){
+            this.setText("🚩");
+            this.setStyle("-fx-font-size: 20; -fx-text-fill: red;");
+        }
+        else
+            this.setText("");
     }
 
     protected abstract void leftClick();

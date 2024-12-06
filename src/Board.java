@@ -28,6 +28,7 @@ public class Board extends BorderPane{
     Timeline timeline;
     int timer = 0;
     GridPane grid = new GridPane();
+    int totalTiles, safeTiles, minedTiles;
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount) {
         this.stage = stage;
@@ -35,6 +36,9 @@ public class Board extends BorderPane{
         this.colNum = colNum;
         this.mineCount = mineCount;
         this.boardGrid = new Tile[rowNum][colNum];
+        totalTiles = rowNum * colNum;
+        minedTiles = mineCount;
+        safeTiles = totalTiles - minedTiles;
         generateBoard(rowNum, colNum, mineCount);
         setUpTimer();
     }
@@ -76,7 +80,7 @@ public class Board extends BorderPane{
         timeline.play();
     }
 
-    public void updateTimer(){
+    public void updateTimer() {
         timer++;
         Label myLabel = (Label)bottomPane.getChildren().get(0);
         myLabel.setText("Time Elapsed: " + timer);

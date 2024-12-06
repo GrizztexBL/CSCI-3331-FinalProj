@@ -19,6 +19,16 @@ public class SafeTile extends Tile{
 
     @Override
     protected void leftClick() {
-        this.setText(String.valueOf(this.adjacentMineCount));
+        if (this.adjacentMineCount == 0) {
+            this.setText(String.valueOf(this.adjacentMineCount));
+            this.revealed = true;
+            for (Tile t: adjacentTiles) {
+                if (!t.revealed) {
+                    t.leftClick();
+                }
+            }
+        }
+        else 
+            this.setText(String.valueOf(this.adjacentMineCount));
     }
 }

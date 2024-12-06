@@ -25,17 +25,19 @@ public class Board extends BorderPane{
     int rowNum, colNum, mineCount;
     int sceneWidth, sceneHeight;
     int btnSize = 50;
-    HBox bottomPane = new HBox();
+    HBox topPane = new HBox();
     Timeline timeline;
     int timer = 0;
     GridPane grid = new GridPane();
     int totalTiles, safeTiles, minedTiles;
+    int flagCount;
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount) {
         this.stage = stage;
         this.rowNum = rowNum;
         this.colNum = colNum;
         this.mineCount = mineCount;
+        this.flagCount = mineCount;
         this.boardGrid = new Tile[rowNum][colNum];
         totalTiles = rowNum * colNum;
         minedTiles = mineCount;
@@ -44,11 +46,19 @@ public class Board extends BorderPane{
         setUpTimer();
     }
 
+    //num = -1 if a flag is being placed
+    //num = 1 if a flag is being removed
+    public void changeFlag(int num){
+        flagCount += num;
+        updateFlagCount();
+    }
+    public int getFlag(){return flagCount; }
+
     public void generateBoard(int rowNum, int colNum, int mineCount) {
         
         for (int i = 0; i < rowNum; i++) {
             for (int j = 0; j < colNum; j++) {
-                Tile tile = new SafeTile();
+                Tile tile = new SafeTile(this);
                 tile.setPrefSize(btnSize, btnSize);
                 tile.setOnMousePressed(e -> handleButtonClick(e, tile));
                 boardGrid[i][j] = tile;
@@ -70,21 +80,31 @@ public class Board extends BorderPane{
     }
 
     public void setUpTimer(){
-        Label timer = new Label("Time Elapsed: 0");
-        bottomPane.getChildren().add(timer);
-        bottomPane.setAlignment(Pos.CENTER);
+        Label flagsLabel = new Label("🚩" + flagCount);
+        flagsLabel.setStyle("-fx-padding: 0px 10px 0px 10px ");
 
-        setBottom(bottomPane);
+        Label timer = new Label("🕓 0");
+        timer.setStyle("-fx-padding: 0px 10px 0px 10px ");
+
+        topPane.getChildren().addAll(flagsLabel, timer);
+        topPane.setAlignment(Pos.CENTER);
+
+        setTop(topPane);
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
+    public void updateFlagCount(){
+        Label myLabel = (Label)topPane.getChildren().get(0);
+        myLabel.setText("🚩" + flagCount);
+    }
+
     public void updateTimer() {
         timer++;
-        Label myLabel = (Label)bottomPane.getChildren().get(0);
-        myLabel.setText("Time Elapsed: " + timer);
+        Label myLabel = (Label)topPane.getChildren().get(1);
+        myLabel.setText("🕓 " + timer);
     }
 
     public void stopTimer(){
@@ -111,7 +131,7 @@ public class Board extends BorderPane{
 
         while (count < mineCount) {
             if (boardGrid[randomRow][randomCol].mined == false) {
-                Tile tile = new MineTile();
+                Tile tile = new MineTile(this);
                 tile.setOnMousePressed(e -> handleButtonClick(e,tile));
                 boardGrid[randomRow][randomCol] = tile;
                 tile.setPrefSize(btnSize, btnSize);

@@ -1,8 +1,8 @@
 import javafx.scene.input.MouseEvent;
 
 public class SafeTile extends Tile{
-    public SafeTile() {
-        super();
+    public SafeTile(Board board) {
+        super(board);
     }
 
     public void addAdjacentTile(Tile tile) {

@@ -1,8 +1,8 @@
 import javafx.scene.input.MouseEvent;
 
 public class MineTile extends Tile{
-    public MineTile() {
-        super();
+    public MineTile(Board board) {
+        super(board);
         setMined();
     }
 

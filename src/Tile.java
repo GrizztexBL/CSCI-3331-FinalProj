@@ -14,10 +14,13 @@ public abstract class Tile extends Button{
 
     int adjacentMineCount;
 
-    public Tile() {
+    Board board;
+
+    public Tile(Board board) {
         revealed = false;
         flagged = false;
         mined = false;
+        this.board = board;
         adjacentTiles = new ArrayList<>();
         adjacentMineCount = 0;
     }
@@ -25,12 +28,15 @@ public abstract class Tile extends Button{
     protected abstract void addAdjacentTile(Tile tile);
 
     protected void rightClick(){
-        if(this.getText().equals("")){
+        if(this.getText().equals("") && board.getFlag() > 0){
             this.setText("🚩");
             this.setStyle("-fx-font-size: 20; -fx-text-fill: red;");
+            board.changeFlag(-1);
         }
-        else
+        else if(this.getText().equals("🚩")){
             this.setText("");
+            board.changeFlag(1);
+        }
     }
 
     protected abstract void leftClick();

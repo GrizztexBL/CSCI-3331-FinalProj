@@ -1,5 +1,3 @@
-import javafx.scene.input.MouseEvent;
-
 public class MineTile extends Tile{
     public MineTile(Board board) {
         super(board);
@@ -25,7 +23,13 @@ public class MineTile extends Tile{
     @Override
     protected void leftClick() {
         this.setText("💣");
+        board.lost();
     }
 
+    public void reveal(){
+        this.setDisable(true);
+        this.setText("💣");
+        System.out.println("here");
+    }
 
 }

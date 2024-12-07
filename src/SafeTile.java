@@ -1,5 +1,3 @@
-import javafx.scene.input.MouseEvent;
-
 public class SafeTile extends Tile{
     public SafeTile(Board board) {
         super(board);
@@ -30,5 +28,7 @@ public class SafeTile extends Tile{
         }
         else 
             this.setText(String.valueOf(this.adjacentMineCount));
+        if(!this.isDisabled()){board.decSafeTile();}
+        this.setDisable(true);
     }
 }

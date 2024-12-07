@@ -31,13 +31,15 @@ public class Board extends BorderPane{
     GridPane grid = new GridPane();
     int totalTiles, safeTiles, minedTiles;
     int flagCount;
+    MainMenu mainMenu;
 
-    public Board(Stage stage, int rowNum, int colNum, int mineCount) {
+    public Board(Stage stage, int rowNum, int colNum, int mineCount, MainMenu mainMenu) {
         this.stage = stage;
         this.rowNum = rowNum;
         this.colNum = colNum;
         this.mineCount = mineCount;
         this.flagCount = mineCount;
+        this.mainMenu = mainMenu;
         this.boardGrid = new Tile[rowNum][colNum];
         totalTiles = rowNum * colNum;
         minedTiles = mineCount;
@@ -196,5 +198,9 @@ public class Board extends BorderPane{
 
     public int getButtonSize() {
         return btnSize;
+    }
+
+    public void gameOver(boolean won){
+        mainMenu.gameOver(won);
     }
 }

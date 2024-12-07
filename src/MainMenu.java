@@ -1,5 +1,7 @@
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -7,24 +9,27 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class MainMenu extends Pane{
-    Stage stage;
-    int sceneWidth, sceneHeight;
+    //Stage stage;
+    //int sceneWidth, sceneHeight;
     int btnCounter = 0;
+    View view;
 
-    public MainMenu(Stage stage) {
-        this.stage = stage;
+    public MainMenu(View view) {
+        //this.stage = stage;
+        this.view = view;
         displayMenu();
     }
 
     public void displayMenu() {
-        Scene scene = new Scene(this, sceneWidth = 1000, sceneHeight = 600);
-        stage.setScene(scene);
-        stage.setResizable(false);
+        // Scene scene = new Scene(this, sceneWidth = 1000, sceneHeight = 600);
+        // view.stage.setScene(scene);
+        // view.stage.setResizable(false);
 
         Button easybtn = new Button("Easy Mode: \n10x12");
         startingButtonSetup(easybtn);
@@ -36,22 +41,22 @@ public class MainMenu extends Pane{
         startingButtonSetup(quitbtn);
 
         easybtn.setOnAction(e-> {
-            Board board = new Board(stage, 12, 10, 15);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+            Board board = new Board(view.stage, 12, 10, 15, this);
+            setHeight(board.getButtonSize() * board.getColNum());
+            setWidth(board.getButtonSize() * board.getRowNum());
+            getScene().setRoot(board.getRootPane());
         });
         medbtn.setOnAction(e-> {
-            Board board = new Board(stage, 18, 15, 45);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+            Board board = new Board(view.stage, 18, 15, 45, this);
+            view.stage.setHeight(board.getButtonSize() * board.getColNum());
+            view.stage.setWidth(board.getButtonSize() * board.getRowNum());
+            view.stage.getScene().setRoot(board.getRootPane());
         });
         hardbtn.setOnAction(e-> {
-            Board board = new Board(stage, 28, 24, 120);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+            Board board = new Board(view.stage, 28, 24, 120, this);
+            view.stage.setHeight(board.getButtonSize() * board.getColNum());
+            view.stage.setWidth(board.getButtonSize() * board.getRowNum());
+            view.stage.getScene().setRoot(board.getRootPane());
         });
         quitbtn.setOnAction(e-> {
             System.exit(0);
@@ -97,7 +102,7 @@ public class MainMenu extends Pane{
         return this;
     }
 
-    public void show() {
-        stage.show();
+    public void gameOver(boolean won){
+        view.gameOver(won);
     }
 }

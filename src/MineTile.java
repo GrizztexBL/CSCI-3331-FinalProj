@@ -25,6 +25,7 @@ public class MineTile extends Tile{
     @Override
     protected void leftClick() {
         this.setText("💣");
+        board.gameOver(false);
     }
 
 

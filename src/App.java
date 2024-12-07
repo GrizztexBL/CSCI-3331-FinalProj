@@ -5,8 +5,10 @@ public class App extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        MainMenu myMenu = new MainMenu(primaryStage);
-        myMenu.show();
+        //MainMenu myMenu = new MainMenu(primaryStage);
+        //myMenu.show();
+        View myView = new View(primaryStage);
+        myView.show();
     }
 
     public static void main(String[] args) throws Exception {

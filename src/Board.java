@@ -1,11 +1,7 @@
-import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.Event;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
@@ -13,9 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,25 +18,29 @@ public class Board extends BorderPane{
     int rowNum, colNum, mineCount;
     int sceneWidth, sceneHeight;
     int btnSize = 50;
-    HBox topPane = new HBox();
+    HBox topPane = new HBox(40);
+    HBox bottomPane = new HBox(40);
     Timeline timeline;
     int timer = 0;
     GridPane grid = new GridPane();
     int totalTiles, safeTiles, minedTiles;
     int flagCount;
+    MainMenu main;
 
-    public Board(Stage stage, int rowNum, int colNum, int mineCount) {
+    public Board(Stage stage, int rowNum, int colNum, int mineCount, MainMenu main) {
         this.stage = stage;
         this.rowNum = rowNum;
         this.colNum = colNum;
         this.mineCount = mineCount;
         this.flagCount = mineCount;
         this.boardGrid = new Tile[rowNum][colNum];
+        this.main = main;
         totalTiles = rowNum * colNum;
         minedTiles = mineCount;
         safeTiles = totalTiles - minedTiles;
         generateBoard(rowNum, colNum, mineCount);
         setUpTimer();
+        setUpHomeReset();
     }
 
     //num = -1 if a flag is being placed
@@ -53,6 +50,13 @@ public class Board extends BorderPane{
         updateFlagCount();
     }
     public int getFlag(){return flagCount; }
+
+    public void decSafeTile(){
+        safeTiles--;
+        if(safeTiles == 0){
+            won();
+        }
+    }
 
     public void generateBoard(int rowNum, int colNum, int mineCount) {
         
@@ -69,23 +73,44 @@ public class Board extends BorderPane{
         mineBoard(mineCount);
         assignAdjacentTiles();
 
-        Button quitbtn = new Button("Exit Game");
-        boardBtnSetup(quitbtn);
-        quitbtn.setOnAction(e-> {
-            System.exit(0);
-        });
+        // Button quitbtn = new Button("Exit Game");
+        // boardBtnSetup(quitbtn);
+        // quitbtn.setOnAction(e-> {
+        //     System.exit(0);
+        // });
 
         setCenter(grid);
-        getChildren().add(quitbtn);
+        //getChildren().add(quitbtn);
+    }
+
+    public void setUpHomeReset(){
+        Button homeBtn = new Button("Home");
+        homeBtn.setStyle("-fx-font-size:15");
+        homeBtn.setOnAction(e -> {
+            main.homeBtn();
+        });
+
+        Button resetBtn = new Button("Reset");
+        resetBtn.setStyle("-fx-font-size:15");
+        resetBtn.setOnAction(e -> {
+            main.reset(mineCount);
+        });
+
+        bottomPane.setPrefHeight(50);
+        bottomPane.getChildren().addAll(homeBtn, resetBtn);
+        bottomPane.setAlignment(Pos.CENTER);
+
+        setBottom(bottomPane);
     }
 
     public void setUpTimer(){
         Label flagsLabel = new Label("🚩" + flagCount);
-        flagsLabel.setStyle("-fx-padding: 0px 10px 0px 10px ");
+        flagsLabel.setStyle("-fx-font-size:15");
 
         Label timer = new Label("🕓 0");
-        timer.setStyle("-fx-padding: 0px 10px 0px 10px ");
+        timer.setStyle("-fx-font-size:15");
 
+        topPane.setPrefHeight(50);
         topPane.getChildren().addAll(flagsLabel, timer);
         topPane.setAlignment(Pos.CENTER);
 
@@ -118,7 +143,6 @@ public class Board extends BorderPane{
         if (e.getButton() == MouseButton.PRIMARY) {
             tile.leftClick();
         }
-        
     }
 
     public void mineBoard(int mineCount) {
@@ -169,18 +193,18 @@ public class Board extends BorderPane{
         }
     }
 
-    public void boardBtnSetup(Button btn) {
-        Font font = Font.font("Courier New", FontWeight.MEDIUM, 10);
-        btn.setFont(font);
-        btn.setStyle("-fx-background-color: #ff0000; ");
-        btn.autosize();
+    // public void boardBtnSetup(Button btn) {
+    //     Font font = Font.font("Courier New", FontWeight.MEDIUM, 10);
+    //     btn.setFont(font);
+    //     btn.setStyle("-fx-background-color: #ff0000; ");
+    //     btn.autosize();
 
-        btn.setLayoutX(900);
-        btn.setLayoutY(25);
+    //     btn.setLayoutX(900);
+    //     btn.setLayoutY(25);
 
-        btn.setMinSize(75, 25);
-        btn.setMaxSize(75, 25);
-    }
+    //     btn.setMinSize(75, 25);
+    //     btn.setMaxSize(75, 25);
+    // }
 
     public BorderPane getRootPane() {
         return this;
@@ -196,5 +220,34 @@ public class Board extends BorderPane{
 
     public int getButtonSize() {
         return btnSize;
+    }
+
+    public void won(){
+        timeline.stop();
+        disableButtons();
+        Label wonLabel = new Label("You won! 🕓 " + timer);
+        topPane.getChildren().clear();
+        topPane.getChildren().add(wonLabel);
+    }
+
+    public void lost(){
+        timeline.stop();
+        disableButtons();
+        Label loseLabel = new Label("You lost 🕓 " + timer);
+        topPane.getChildren().clear();
+        topPane.getChildren().add(loseLabel);
+    }
+
+    public void disableButtons(){
+        for(int r = 0; r < boardGrid.length; r++){
+            for(int c = 0; c < boardGrid[0].length; c++){
+                if(!boardGrid[r][c].mined){
+                    boardGrid[r][c].setDisable(true);
+                }
+                else{
+                    boardGrid[r][c].setText("💣");
+                }
+            }
+        }
     }
 }

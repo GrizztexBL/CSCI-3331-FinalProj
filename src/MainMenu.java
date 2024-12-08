@@ -36,20 +36,20 @@ public class MainMenu extends Pane{
         startingButtonSetup(quitbtn);
 
         easybtn.setOnAction(e-> {
-            Board board = new Board(stage, 12, 10, 15);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
+            Board board = new Board(stage, 12, 10, 15, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
             stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
         medbtn.setOnAction(e-> {
-            Board board = new Board(stage, 18, 15, 45);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
+            Board board = new Board(stage, 18, 15, 45, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
             stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
         hardbtn.setOnAction(e-> {
-            Board board = new Board(stage, 28, 24, 120);
-            stage.setHeight(board.getButtonSize() * board.getColNum());
+            Board board = new Board(stage, 28, 24, 120, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
             stage.setWidth(board.getButtonSize() * board.getRowNum());
             stage.getScene().setRoot(board.getRootPane());
         });
@@ -67,6 +67,33 @@ public class MainMenu extends Pane{
         getChildren().add(quitbtn);
 
         setBackground(new Background(myBI));
+    }
+
+    public void homeBtn() {
+        stage.getScene().setRoot(this.getRootPane());
+        stage.setHeight(sceneHeight+37);
+        stage.setWidth(sceneWidth);
+    }
+
+    public void reset(int mines){
+        if(mines == 15){
+            Board board = new Board(stage, 12, 10, 15, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
+            stage.getScene().setRoot(board.getRootPane());
+        }
+        else if(mines == 45){
+            Board board = new Board(stage, 18, 15, 45, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
+            stage.getScene().setRoot(board.getRootPane());
+        }
+        else if(mines ==120){
+            Board board = new Board(stage, 28, 24, 120, this);
+            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
+            stage.setWidth(board.getButtonSize() * board.getRowNum());
+            stage.getScene().setRoot(board.getRootPane());
+        }
     }
 
     public void startingButtonSetup(Button btn) {

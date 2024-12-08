@@ -1,14 +1,6 @@
 public class SafeTile extends Tile{
-    public SafeTile(Board board) {
-        super(board);
-    }
-
-    public void addAdjacentTile(Tile tile) {
-        this.adjacentTiles.add(tile);
-    }
-
-    public void addAdjacentMine() {
-        super.adjacentMineCount += 1;
+    public SafeTile(BoardModel model) {
+        super(model);
     }
 
     public boolean getMined() {
@@ -17,18 +9,18 @@ public class SafeTile extends Tile{
 
     @Override
     protected void leftClick() {
-        if (this.adjacentMineCount == 0) {
-            this.setText(String.valueOf(this.adjacentMineCount));
-            this.revealed = true;
-            for (Tile t: adjacentTiles) {
-                if (!t.revealed) {
-                    t.leftClick();
+        if (!this.getText().equals("🚩")) {
+            if (this.adjacentMineCount == 0) {
+                this.setText(String.valueOf(this.adjacentMineCount));
+                this.revealed = true;
+                while(!adjacentTiles.empty()){
+                    adjacentTiles.pop().leftClick();
                 }
             }
+            else 
+                this.setText(String.valueOf(this.adjacentMineCount));
+            if(!this.isDisabled()){model.decSafeTile();}
+            this.setDisable(true);
         }
-        else 
-            this.setText(String.valueOf(this.adjacentMineCount));
-        if(!this.isDisabled()){board.decSafeTile();}
-        this.setDisable(true);
     }
 }

@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 
 public class MainMenu extends Pane{
     Stage stage;
-    int sceneWidth, sceneHeight;
     int btnCounter = 0;
 
     public MainMenu(Stage stage) {
@@ -22,7 +21,7 @@ public class MainMenu extends Pane{
     }
 
     public void displayMenu() {
-        Scene scene = new Scene(this, sceneWidth = 1000, sceneHeight = 600);
+        Scene scene = new Scene(this, MineSweeperConstants.MENU_WIDTH, MineSweeperConstants.MENU_HEIGHT);
         stage.setScene(scene);
         stage.setResizable(false);
 
@@ -35,29 +34,14 @@ public class MainMenu extends Pane{
         Button quitbtn = new Button("Exit Game");
         startingButtonSetup(quitbtn);
 
-        easybtn.setOnAction(e-> {
-            Board board = new Board(stage, 12, 10, 15, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
-        });
-        medbtn.setOnAction(e-> {
-            Board board = new Board(stage, 18, 15, 45, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
-        });
-        hardbtn.setOnAction(e-> {
-            Board board = new Board(stage, 28, 24, 120, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
-        });
+        easybtn.setOnAction(e->easyBoard());
+        medbtn.setOnAction(e->medBoard());
+        hardbtn.setOnAction(e->hardBoard());
         quitbtn.setOnAction(e-> {
             System.exit(0);
         });
 
-        BackgroundImage myBI= new BackgroundImage(new Image("Cave.png",1000,600,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image("Cave.png",MineSweeperConstants.MENU_WIDTH,MineSweeperConstants.MENU_HEIGHT,false,true),
             BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
             BackgroundSize.DEFAULT);
 
@@ -69,30 +53,48 @@ public class MainMenu extends Pane{
         setBackground(new Background(myBI));
     }
 
+    public void easyBoard(){
+        Board board = new Board(stage, MineSweeperConstants.EASY_MINES, this);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_COL+100);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_ROW);
+        stage.getScene().setRoot(board.getRootPane());
+        BoardModel model = new BoardModel(MineSweeperConstants.EASY_ROW, MineSweeperConstants.EASY_COL, MineSweeperConstants.EASY_MINES);
+        BoardController controller = new BoardController(model, board);
+    }
+
+    public void medBoard(){
+        Board board = new Board(stage, MineSweeperConstants.MED_MINES, this);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_COL+100);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_ROW);
+        stage.getScene().setRoot(board.getRootPane());
+        BoardModel model = new BoardModel(MineSweeperConstants.MED_ROW, MineSweeperConstants.MED_COL, MineSweeperConstants.MED_MINES);
+        BoardController controller = new BoardController(model, board);
+    }
+
+    public void hardBoard(){
+        Board board = new Board(stage, MineSweeperConstants.HARD_MINES, this);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_COL+100);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_ROW);
+        stage.getScene().setRoot(board.getRootPane());
+        BoardModel model = new BoardModel(MineSweeperConstants.HARD_ROW, MineSweeperConstants.HARD_COL, MineSweeperConstants.HARD_MINES);
+        BoardController controller = new BoardController(model, board);
+    }
+
     public void homeBtn() {
         stage.getScene().setRoot(this.getRootPane());
-        stage.setHeight(sceneHeight+37);
-        stage.setWidth(sceneWidth);
+        stage.setHeight(MineSweeperConstants.MENU_HEIGHT + 37);
+        stage.setWidth(MineSweeperConstants.MENU_WIDTH);
     }
 
     public void reset(int mines){
-        if(mines == 15){
-            Board board = new Board(stage, 12, 10, 15, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+        if(mines == MineSweeperConstants.EASY_MINES){
+            easyBoard();
         }
-        else if(mines == 45){
-            Board board = new Board(stage, 18, 15, 45, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+        else if(mines == MineSweeperConstants.MED_MINES){
+            medBoard();
         }
-        else if(mines ==120){
-            Board board = new Board(stage, 28, 24, 120, this);
-            stage.setHeight(board.getButtonSize() * board.getColNum()+100);
-            stage.setWidth(board.getButtonSize() * board.getRowNum());
-            stage.getScene().setRoot(board.getRootPane());
+        else if(mines == MineSweeperConstants.HARD_MINES){
+            hardBoard();
         }
     }
 

@@ -25,11 +25,11 @@ public class MainMenu extends Pane{
         stage.setScene(scene);
         stage.setResizable(false);
 
-        Button easybtn = new Button("Easy Mode: \n10x12");
+        Button easybtn = new Button("Easy Mode: \n8x8");
         startingButtonSetup(easybtn);
-        Button medbtn = new Button("Medium Mode: \n15x18");
+        Button medbtn = new Button("Medium Mode: \n12x12");
         startingButtonSetup(medbtn);
-        Button hardbtn = new Button("Hard Mode: \n24x28");
+        Button hardbtn = new Button("Hard Mode: \n14x20");
         startingButtonSetup(hardbtn);
         Button quitbtn = new Button("Exit Game");
         startingButtonSetup(quitbtn);

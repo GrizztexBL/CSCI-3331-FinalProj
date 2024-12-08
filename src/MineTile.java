@@ -22,8 +22,14 @@ public class MineTile extends Tile{
 
     @Override
     protected void leftClick() {
-        this.setText("💣");
-        board.lost();
+        if (this.getText().equals("🚩")) {
+
+        } 
+        else {
+            this.setText("💣");
+            board.lost();
+        }
+        
     }
 
     public void reveal(){

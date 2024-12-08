@@ -17,7 +17,11 @@ public class SafeTile extends Tile{
 
     @Override
     protected void leftClick() {
-        if (this.adjacentMineCount == 0) {
+        if (this.getText().equals("🚩")) {
+
+        }
+        else {
+            if (this.adjacentMineCount == 0) {
             this.setText(String.valueOf(this.adjacentMineCount));
             this.revealed = true;
             for (Tile t: adjacentTiles) {
@@ -25,10 +29,12 @@ public class SafeTile extends Tile{
                     t.leftClick();
                 }
             }
+            }
+            else 
+                this.setText(String.valueOf(this.adjacentMineCount));
+            if(!this.isDisabled()){board.decSafeTile();}
+            this.setDisable(true);
         }
-        else 
-            this.setText(String.valueOf(this.adjacentMineCount));
-        if(!this.isDisabled()){board.decSafeTile();}
-        this.setDisable(true);
+        
     }
 }

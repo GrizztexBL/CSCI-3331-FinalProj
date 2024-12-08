@@ -28,6 +28,7 @@ public class Board extends BorderPane{
     int totalTiles, safeTiles, minedTiles;
     int flagCount;
     MainMenu main;
+    Random rand = new Random();
 
     public Board(Stage stage, int rowNum, int colNum, int mineCount, MainMenu main) {
         this.stage = stage;
@@ -61,7 +62,7 @@ public class Board extends BorderPane{
     }
 
     public void generateBoard(int rowNum, int colNum, int mineCount) {
-        
+
         for (int i = 0; i < rowNum; i++) {
             for (int j = 0; j < colNum; j++) {
                 Tile tile = new SafeTile(this);
@@ -69,12 +70,17 @@ public class Board extends BorderPane{
                 tile.setOnMousePressed(e -> handleButtonClick(e, tile));
                 tile.setFocusTraversable(false);
                 boardGrid[i][j] = tile;
-                grid.add(tile, i, j);
             }
         }
         
         mineBoard(mineCount);
         assignAdjacentTiles();
+
+        for (int a = 0; a < rowNum; a++) {
+            for (int b = 0; b < colNum; b++) {
+                grid.add(boardGrid[a][b], a, b);
+            }
+        }
 
         // Button quitbtn = new Button("Exit Game");
         // boardBtnSetup(quitbtn);
@@ -149,7 +155,6 @@ public class Board extends BorderPane{
     }
 
     public void mineBoard(int mineCount) {
-        Random rand = new Random();
 
         int randomRow = rand.nextInt(rowNum);
         int randomCol = rand.nextInt(colNum);
@@ -163,8 +168,6 @@ public class Board extends BorderPane{
                 boardGrid[randomRow][randomCol] = tile;
                 tile.setPrefSize(btnSize, btnSize);
                 tile.setFocusTraversable(false);
-                tile.giveStage(stage);
-                grid.add(tile, randomRow, randomCol);
                 count++;
             } else {
                 randomRow = rand.nextInt(rowNum);
@@ -246,11 +249,12 @@ public class Board extends BorderPane{
     public void disableButtons(){
         for(int r = 0; r < boardGrid.length; r++){
             for(int c = 0; c < boardGrid[0].length; c++){
-                if(!boardGrid[r][c].mined){
+                if(!boardGrid[r][c].getMined()){
                     boardGrid[r][c].setDisable(true);
                 }
                 else{
                     boardGrid[r][c].setText("💣");
+                    boardGrid[r][c].setDisable(true);
                 }
             }
         }

@@ -161,6 +161,7 @@ public class BoardController {
                     model.getBoardGrid()[r][c].setDisable(true);
                 }
                 else{
+                    model.getBoardGrid()[r][c].setStyle("-fx-font-size: 20; -fx-text-fill: red; -fx-font-weight: bold");
                     model.getBoardGrid()[r][c].setText("💣");
                     model.getBoardGrid()[r][c].setDisable(true);
                 }

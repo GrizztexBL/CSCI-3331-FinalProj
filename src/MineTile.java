@@ -17,6 +17,7 @@ public class MineTile extends Tile{
     @Override
     protected void leftClick() {
         if (!this.getText().equals("🚩")) {
+            this.setStyle("-fx-font-size: 20; -fx-text-fill: red; -fx-font-weight: bold");
             this.setText("💣");
             model.lose();
         }

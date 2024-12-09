@@ -55,8 +55,8 @@ public class MainMenu extends Pane{
 
     public void easyBoard(){
         Board board = new Board(stage, MineSweeperConstants.EASY_MINES, this);
-        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_COL+100);
-        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_ROW);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_COL+120);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.EASY_ROW-2);
         stage.getScene().setRoot(board.getRootPane());
         BoardModel model = new BoardModel(MineSweeperConstants.EASY_ROW, MineSweeperConstants.EASY_COL, MineSweeperConstants.EASY_MINES);
         BoardController controller = new BoardController(model, board);
@@ -64,8 +64,8 @@ public class MainMenu extends Pane{
 
     public void medBoard(){
         Board board = new Board(stage, MineSweeperConstants.MED_MINES, this);
-        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_COL+100);
-        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_ROW);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_COL+110);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.MED_ROW-10);
         stage.getScene().setRoot(board.getRootPane());
         BoardModel model = new BoardModel(MineSweeperConstants.MED_ROW, MineSweeperConstants.MED_COL, MineSweeperConstants.MED_MINES);
         BoardController controller = new BoardController(model, board);
@@ -73,8 +73,8 @@ public class MainMenu extends Pane{
 
     public void hardBoard(){
         Board board = new Board(stage, MineSweeperConstants.HARD_MINES, this);
-        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_COL+100);
-        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_ROW);
+        stage.setHeight(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_COL+105);
+        stage.setWidth(MineSweeperConstants.TILE_SIZE * MineSweeperConstants.HARD_ROW-26);
         stage.getScene().setRoot(board.getRootPane());
         BoardModel model = new BoardModel(MineSweeperConstants.HARD_ROW, MineSweeperConstants.HARD_COL, MineSweeperConstants.HARD_MINES);
         BoardController controller = new BoardController(model, board);

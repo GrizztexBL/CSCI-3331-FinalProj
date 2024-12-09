@@ -40,6 +40,7 @@ public class MainMenu extends Pane{
         // add quit button
         Button quitbtn = new Button("Exit Game");
         startingButtonSetup(quitbtn);
+        quitbtn.setStyle("-fx-background-color: #c82323; ");
 
         // set action for each button
         easybtn.setOnAction(e->easyBoard());
@@ -118,7 +119,7 @@ public class MainMenu extends Pane{
         // format buttons
         Font font = Font.font("Courier New", FontWeight.BOLD, 25);
         btn.setFont(font);
-        btn.setStyle("-fx-background-color: #ff0000; ");
+        btn.setStyle("-fx-background-color: #857e7c; ");
         btn.autosize();
         if (btnCounter == 0) {
             btn.setLayoutX(50);

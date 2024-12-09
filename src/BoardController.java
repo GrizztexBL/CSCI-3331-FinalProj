@@ -118,16 +118,29 @@ public class BoardController {
     }
 
     private void assignAdjacentTiles() {
+        //Offsets for grabbing the adjacents
+        /*
+         * [(-1,-1)(-1, 0)(-1, 1)]
+         * [( 0,-1)( 0, 0)( 0, 1)]
+         * [( 1,-1)( 1, 0)( 1, 1)]
+         */
+        //Each offset value is for a cordinate of the nearby tiles, (0,0) is
+        //not in the offsets because it is the base tile
         int[] rowOffsets = {-1, -1, -1, 0, 0, 1, 1, 1};
         int[] colOffsets = {-1, 0, 1, -1, 1, -1, 0, 1}; 
 
+        //For loops to go though each tile
         for (int i = 0; i < model.getRowNum(); i++) {
             for (int j = 0; j < model.getColNum(); j++) {
+                //This loop is for going through each offset to grab adjacents
                 for (int k = 0; k < 8; k++) {
+                    //Take row and column of current tile and apply offset
                     int newRow = i + rowOffsets[k];
                     int newCol = j + colOffsets[k];
 
+                    //If that adjacent tile is in the bounds of the board add them to the adjacent tiles stack
                     if (isInBounds(newRow, newCol)) {
+                        //If that adjacent tile is a mine, also add increase that tiles adjacent mine count
                         if (model.getBoardGrid()[newRow][newCol].getMined()) {
                             model.getBoardGrid()[i][j].addAdjacentMine();
                         }

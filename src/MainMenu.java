@@ -51,7 +51,7 @@ public class MainMenu extends Pane{
         });
 
         // create background image
-        BackgroundImage myBI= new BackgroundImage(new Image("Cave.png",MineSweeperConstants.MENU_WIDTH,MineSweeperConstants.MENU_HEIGHT,false,true),
+        BackgroundImage myBI= new BackgroundImage(new Image("cavewithtitle.png",MineSweeperConstants.MENU_WIDTH,MineSweeperConstants.MENU_HEIGHT,false,true),
             BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
             BackgroundSize.DEFAULT);
 

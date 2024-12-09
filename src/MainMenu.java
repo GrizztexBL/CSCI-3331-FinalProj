@@ -33,6 +33,7 @@ public class MainMenu extends Pane{
         startingButtonSetup(hardbtn);
         Button quitbtn = new Button("Exit Game");
         startingButtonSetup(quitbtn);
+        quitbtn.setStyle("-fx-background-color: #c82323; ");
 
         easybtn.setOnAction(e->easyBoard());
         medbtn.setOnAction(e->medBoard());
@@ -101,7 +102,7 @@ public class MainMenu extends Pane{
     public void startingButtonSetup(Button btn) {
         Font font = Font.font("Courier New", FontWeight.BOLD, 25);
         btn.setFont(font);
-        btn.setStyle("-fx-background-color: #ff0000; ");
+        btn.setStyle("-fx-background-color: #857e7c; ");
         btn.autosize();
         if (btnCounter == 0) {
             btn.setLayoutX(50);

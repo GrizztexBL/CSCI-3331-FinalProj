@@ -5,6 +5,7 @@ public class App extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // create and show main menu
         MainMenu myMenu = new MainMenu(primaryStage);
         myMenu.show();
     }

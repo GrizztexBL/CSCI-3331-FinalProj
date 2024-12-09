@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class BoardModel {
+    // member variables
     int rowNum, colNum, mineCount;
     int totalTiles;
     Tile[][] boardGrid;
@@ -16,6 +17,7 @@ public class BoardModel {
         this.colNum = colNum;
         this.boardGrid = new Tile[rowNum][colNum];
         this.mineCount = mineCount;
+        // set up properties and calculated values
         totalTiles = rowNum * colNum;
         safeTiles = new SimpleIntegerProperty(totalTiles - mineCount);
         flagCount = new SimpleIntegerProperty(mineCount);
@@ -23,10 +25,12 @@ public class BoardModel {
     }
 
     public void changeFlag(int num){
+        // update flag count depending on num (1 for removal, -1 for placing)
         flagCount.setValue(flagCount.getValue() + num);
     }
 
     public void decSafeTile(){
+        // subtract 1 from safeTiles
         safeTiles.setValue(safeTiles.getValue()-1);
     }
 
@@ -51,6 +55,7 @@ public class BoardModel {
     }
 
     public void lose(){
+        // updated when the player loses
         lost.setValue(true);
     }
 

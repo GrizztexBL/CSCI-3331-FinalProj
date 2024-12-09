@@ -1,33 +1,35 @@
 public class SafeTile extends Tile{
+    // constructor
     public SafeTile(BoardModel model) {
+        // parent constructor
         super(model);
-    }
-
-    public boolean getMined() {
-        return mined;
     }
 
     @Override
     protected void leftClick() {
         if (!this.getText().equals("🚩")) {
+            // if the tile is not adjacent to mines
             if (this.adjacentMineCount == 0) {
-                //this.setText(String.valueOf(this.adjacentMineCount));
                 this.setText("");
                 this.revealed = true;
+                // reveal all adjacent mines using recursion
                 while(!adjacentTiles.empty()){
                     adjacentTiles.pop().leftClick();
                 }
             }
             else{
+                // display number of adjacent mines
                 setColor();
                 this.setText(String.valueOf(this.adjacentMineCount));
             }   
+            // disable tile and decrement safe tiles
             if(!this.isDisabled()){model.decSafeTile();}
             this.setDisable(true);
         }
     }
 
     protected void setColor(){
+        // give numbers different colors
         if(this.adjacentMineCount == 1){
             this.setStyle("-fx-stroke: black; -fx-stroke-width: 1px; -fx-font-size: 20; -fx-text-fill: magenta; -fx-font-weight: bold");
         }

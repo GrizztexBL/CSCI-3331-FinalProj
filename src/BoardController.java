@@ -9,14 +9,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class BoardController {
+    // member variables
     BoardModel model;
     Board board;
     IntegerProperty timer = new SimpleIntegerProperty(0);
     Timeline timeline;
 
+    // constructor
     public BoardController(BoardModel model, Board board){
         this.model = model;
         this.board = board;
+        // set up parts for updating 
         setUpTimer();
         elapseTime();
         generateBoard();
@@ -26,28 +29,33 @@ public class BoardController {
     }
 
     public void setUpTimer(){
+        // add listener that updates timer when changed
         timer.addListener(ov -> {
             board.updateTimer(timer.getValue());
         });
     }
 
     public void elapseTime(){
+        // increment time every second
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> incrementTime()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
     public void incrementTime(){
+        // increment time by one
         timer.setValue(timer.getValue()+1);
     }
 
     public void setUpFlags(){
+        // add listener to update number of flags when changed
         model.getFlagCount().addListener(ov -> {
             board.updateFlagCount(model.getFlagCount().getValue());
         });
     }
 
     public void setUpWin(){
+        // add listener to end game when the player wins
         model.getSafeTiles().addListener(ov -> {
             if(model.getSafeTiles().getValue() == 0){
                 won();
@@ -56,6 +64,7 @@ public class BoardController {
     }
 
     public void setUpLose(){
+        // add listener to end game when the player loses
         model.getLost().addListener(ov -> {
             if(model.getLost().getValue()){
                 lost();
@@ -64,7 +73,7 @@ public class BoardController {
     }
 
     public void generateBoard() {
-        
+        // create tiles
         for (int i = 0; i < model.getRowNum(); i++) {
             for (int j = 0; j < model.getColNum(); j++) {
                 Tile tile = new SafeTile(model);
@@ -74,22 +83,27 @@ public class BoardController {
 
             }
         }
-        
+        // add mines to the board
         mineBoard(board.getMineCount());
+        // set up adjacent tiles
         assignAdjacentTiles();
+        // add tiles to the board visually
         for (int a = 0; a < model.getRowNum(); a++) {
             for (int b = 0; b < model.getColNum(); b++) {
                 board.getGrid().add(model.boardGrid[a][b], a, b);
             }
         }
 
+        // add tile grid to board
         board.setCenter(board.getGrid());
     }
 
     public void handleButtonClick(MouseEvent e, Tile tile) {
+        // right click
         if(e.getButton() == MouseButton.SECONDARY) {
             tile.rightClick();
         }
+        // left click
         if (e.getButton() == MouseButton.PRIMARY) {
             tile.leftClick();
         }
@@ -98,19 +112,26 @@ public class BoardController {
     public void mineBoard(int mineCount) {
         Random rand = new Random();
 
+        // get random row and column
         int randomRow = rand.nextInt(model.getRowNum());
         int randomCol = rand.nextInt(model.getColNum());
 
         int count = 0;
 
+        // while mines still need to be added
         while (count < mineCount) {
+            // if the tile is not already a mine
             if (model.getBoardGrid()[randomRow][randomCol].mined == false) {
+                // switch the tile for a mine tile
                 Tile tile = new MineTile(model);
                 tile.setOnMousePressed(e -> handleButtonClick(e,tile));
                 model.getBoardGrid()[randomRow][randomCol] = tile;
                 tile.setPrefSize(MineSweeperConstants.TILE_SIZE, MineSweeperConstants.TILE_SIZE);
                 count++;
-            } else {
+            } 
+            // if the tile is already a mine
+            else {
+                // get a new coordinate
                 randomRow = rand.nextInt(model.getRowNum());
                 randomCol = rand.nextInt(model.getColNum());
             }
@@ -143,18 +164,21 @@ public class BoardController {
     }
 
     public void won(){
+        // stop timer, disable buttons, and add the win label
         timeline.stop();
         disableButtons();
         board.setWinLabel(timer.getValue());
     }
 
     public void lost(){
+        // stop timer, disable buttons, and add the lost label
         timeline.stop();
         disableButtons();
         board.setLostLabel(timer.getValue());
     }
 
     public void disableButtons(){
+        // make sure every mine is shown and all buttons are disabled
         for(int r = 0; r < model.getBoardGrid().length; r++){
             for(int c = 0; c < model.getBoardGrid()[0].length; c++){
                 if(!model.getBoardGrid()[r][c].mined){
